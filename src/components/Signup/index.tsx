@@ -1,50 +1,47 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { useState, useContext } from "react";
 import { FirebaseContext } from "../Firebase";
+import type { RouteComponentProps } from "../../types/components";
 
-const Signup = (props) => {
-  //declaration de useContext
+interface SignupFormData {
+  pseudo: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+const Signup = (props: RouteComponentProps) => {
   const firebase = useContext(FirebaseContext);
-  //console.log(firebase, 'fff');
 
-  const data = {
+  const data: SignupFormData = {
     pseudo: "",
     email: "",
     password: "",
     confirmPassword: "",
   };
 
-  const [loginData, setLoginData] = useState(data);
-  const [error, setError] = useState("");
-  //console.log(loginData);
+  const [loginData, setLoginData] = useState<SignupFormData>(data);
+  const [error, setError] = useState<string | Error>("");
 
-  const handleChange = (e) => {
-    // capturer les elements de logindata
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginData({ ...loginData, [e.target.id]: e.target.value });
   };
 
-  //methode de validation du formulaire
-  const handleSubmit = async (e) => {
-    e.preventDefault(); //eviter que la page se raffraichisse
-    //const { email, password, pseudo } = loginData;
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
     try {
       await firebase.signupUser(loginData);
-      //vider login data si les actions sont bien mené
       setLoginData({ ...data });
       props.history.push("/welcome");
-    } catch (error) {
+    } catch (err) {
       setLoginData({ ...data });
-      setError(error);
+      setError(err as Error);
     }
   };
 
-  //Destructuration pour eviter d'afficher l'objet loginData dans chaque value
   const { pseudo, email, password, confirmPassword } = loginData;
 
-  /* si le pseudo = une chaine de caractere vide pareil pour (email, password) et password different de confirmPassword
-    dans ce cas afficher le button inscription avec disable sinon afficher le bouton normal */
   const btn =
     pseudo === "" ||
     email === "" ||
@@ -55,12 +52,9 @@ const Signup = (props) => {
       <button>SignUp</button>
     );
 
-  //gestion des erreur
-
-  /*l'erreur est different d'une chaine de caractère vide
-   seulement dans ce cas tu affiche un message d'erreur*/
-  const errorMsg = error !== "" && <span>{error.message}</span>;
-  //console.log(errorMesg);
+  const errorMsg = error !== "" && (
+    <span>{error instanceof Error ? error.message : error}</span>
+  );
 
   return (
     <div className="signUpLoginBox">
