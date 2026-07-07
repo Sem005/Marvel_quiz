@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
     <footer>
       <div className="footer-container">
         <img src={marvel} style={styleImg} alt="Marvel" />
-        <p>Projet realisé par @Sem-Lumiel - 2022</p>
+        <p>Projet realisé par @Semiou Yessoufou - 2026</p>
         <p>
           Les icones wolverine, Iron-man, Spider-man, Batman sont prises sur
           iconFinder.com
