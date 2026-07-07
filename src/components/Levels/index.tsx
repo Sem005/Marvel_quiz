@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Stepper from "react-stepper-horizontal/lib/Stepper";
-import type { LevelsProps } from "../../types/components";
 
-const Levels = ({ LevelNames, quizLevel }: LevelsProps) => {
+type LevelsProps = {
+  LevelNames: string[];
+  quizLevel: number;
+};
+
+const Levels: React.FC<LevelsProps> = (props) => {
+  const { LevelNames, quizLevel } = props;
+
   const [levels, setLevels] = useState<{ title: string }[]>([]);
 
   useEffect(() => {
@@ -18,10 +24,10 @@ const Levels = ({ LevelNames, quizLevel }: LevelsProps) => {
         steps={levels}
         activeStep={quizLevel}
         circleTop={0}
-        completeTitleColor="#E0E0E0"
-        defaultTitleColor="#E0E0E0"
-        completeColor="#E0E0E0"
-        completeBarColor="#E0E0E0"
+        completeTitleColor={"#E0E0E0"}
+        defaultTitleColor={"#E0E0E0"}
+        completeColor={"#E0E0E0"}
+        completeBarColor={"#E0E0E0"}
         size={45}
         circleFontSize={20}
       />

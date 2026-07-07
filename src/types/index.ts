@@ -12,6 +12,8 @@ export interface QuizOption {
   heroId: number;
 }
 
+export type QuizQuestion = Omit<QuizOption, "answer">;
+
 export interface QuizLevelData {
   [key: string]: QuizOption[];
 }

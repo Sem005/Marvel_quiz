@@ -1,16 +1,18 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { useRef, useEffect, useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 
-const Landing = () => {
+const Landing: React.FC = () => {
   const [btn, setBtn] = useState(false);
+
   const refWolverine = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     refWolverine.current?.classList.add("startingImg");
-    setTimeout(() => {
+    const t = setTimeout(() => {
       refWolverine.current?.classList.remove("startingImg");
       setBtn(true);
     }, 1000);
+    return () => clearTimeout(t);
   }, []);
 
   const setLeftImg = () => {

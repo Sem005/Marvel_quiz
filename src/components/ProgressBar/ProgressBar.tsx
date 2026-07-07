@@ -1,7 +1,14 @@
 import React, { Fragment } from "react";
-import type { ProgressBarProps } from "../../types/components";
 
-const ProgressBar = ({ idQuestion, maxQuestions }: ProgressBarProps) => {
+type ProgressBarProps = {
+  idQuestion: number;
+  maxQuestions: number;
+};
+
+const ProgressBar: React.FC<ProgressBarProps> = ({
+  idQuestion,
+  maxQuestions,
+}) => {
   const getPercentage = (totalQuestions: number, questionId: number) => {
     return (100 / totalQuestions) * questionId;
   };

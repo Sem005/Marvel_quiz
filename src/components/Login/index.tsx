@@ -1,15 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { FirebaseContext } from "../Firebase";
-import type { RouteComponentProps } from "../../types/components";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+import FirebaseContext from "../Firebase/contexte";
 
-const Login = (props: RouteComponentProps) => {
+const Login: React.FC = () => {
   const firebase = useContext(FirebaseContext);
+  const history = useHistory();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [btn, setBtn] = useState(false);
-  const [error, setError] = useState<string | Error>("");
+  const [error, setError] = useState<any>("");
 
   useEffect(() => {
     if (password.length > 5 && email !== "") {
@@ -19,15 +19,16 @@ const Login = (props: RouteComponentProps) => {
     }
   }, [password, email, btn]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      if (!firebase) throw new Error("Firebase not available");
       await firebase.loginUser(email, password);
       setEmail("");
       setPassword("");
-      props.history.push("/welcome");
+      history.push("/welcome");
     } catch (err) {
-      setError(err as Error);
+      setError(err);
       setEmail("");
       setPassword("");
     }
@@ -40,9 +41,7 @@ const Login = (props: RouteComponentProps) => {
 
         <div className="formBoxRight">
           <div className="formContent">
-            {error !== "" && (
-              <span>{error instanceof Error ? error.message : error}</span>
-            )}
+            {error !== "" && <span>{error.message}</span>}
 
             <h2>Connexion</h2>
             <form onSubmit={handleSubmit}>

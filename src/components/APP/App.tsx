@@ -11,7 +11,7 @@ import "../../App.css";
 import ForgetPassword from "../ForgetPass";
 import { IconContext } from "react-icons";
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="app">
       <Router>
@@ -32,6 +32,6 @@ function App() {
       </Router>
     </div>
   );
-}
+};
 
 export default App;

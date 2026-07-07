@@ -1,42 +1,42 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { FirebaseContext } from "../Firebase";
-import type { RouteComponentProps } from "../../types/components";
+import React, { useState, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+import FirebaseContext from "../Firebase/contexte";
 
-interface SignupFormData {
+type SignupData = {
   pseudo: string;
   email: string;
   password: string;
   confirmPassword: string;
-}
+};
 
-const Signup = (props: RouteComponentProps) => {
+const Signup: React.FC = () => {
   const firebase = useContext(FirebaseContext);
+  const history = useHistory();
 
-  const data: SignupFormData = {
+  const data: SignupData = {
     pseudo: "",
     email: "",
     password: "",
     confirmPassword: "",
   };
 
-  const [loginData, setLoginData] = useState<SignupFormData>(data);
-  const [error, setError] = useState<string | Error>("");
+  const [loginData, setLoginData] = useState<SignupData>(data);
+  const [error, setError] = useState<any>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoginData({ ...loginData, [e.target.id]: e.target.value });
+    setLoginData({ ...loginData, [e.target.id]: e.target.value } as any);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
+      if (!firebase) throw new Error("Firebase not available");
       await firebase.signupUser(loginData);
       setLoginData({ ...data });
-      props.history.push("/welcome");
+      history.push("/welcome");
     } catch (err) {
       setLoginData({ ...data });
-      setError(err as Error);
+      setError(err);
     }
   };
 
@@ -52,9 +52,7 @@ const Signup = (props: RouteComponentProps) => {
       <button>SignUp</button>
     );
 
-  const errorMsg = error !== "" && (
-    <span>{error instanceof Error ? error.message : error}</span>
-  );
+  const errorMsg = error !== "" && <span>{error.message}</span>;
 
   return (
     <div className="signUpLoginBox">

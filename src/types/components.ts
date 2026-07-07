@@ -6,6 +6,20 @@ export interface RouteComponentProps {
   };
 }
 
+export interface QuizProps {
+  userData: {
+    pseudo?: string;
+    uid?: string;
+    email?: string | null;
+  };
+}
+
+export interface FirebaseRouteProps {
+  history: {
+    push: (path: string) => void;
+  };
+}
+
 export interface ModalProps {
   openModal: boolean;
   children: ReactNode;

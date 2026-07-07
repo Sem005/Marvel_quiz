@@ -1,29 +1,36 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useState, useContext, useEffect } from "react";
 import Logout from "../components/Logout";
 import Quiz from "../components/Quiz";
-import { FirebaseContext } from "../components/Firebase";
-import type { UserData } from "../types";
+import FirebaseContext from "../components/Firebase/contexte";
+import { useHistory } from "react-router-dom";
 
-const Welcome = (props: { history: { push: (path: string) => void } }) => {
+const Welcome: React.FC = () => {
   const firebase = useContext(FirebaseContext);
-  const [userSession, setUserSession] = useState<any>(null);
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const history = useHistory();
+
+  const [userSession, setUserSession] = useState<any | null>(null);
+  const [userData, setUserData] = useState<any | null>(null);
 
   useEffect(() => {
+    if (!firebase) return;
     const listener = firebase.auth.onAuthStateChanged((user: any) => {
-      user ? setUserSession(user) : props.history.push("/");
+      user ? setUserSession(user) : history.push("/");
     });
 
     if (userSession !== null) {
-      firebase.fetchUserData().then((user: UserData | undefined) => {
-        setUserData(user ?? null);
-      });
+      firebase
+        .fetchUserData()
+        .then((user: any) => {
+          console.log(".....fetched user....", user);
+          setUserData(user);
+        })
+        .catch(() => {});
     }
 
     return () => {
       listener();
     };
-  }, [firebase, props.history, userSession]);
+  }, [firebase, history, userSession]);
 
   const quiz =
     userData === null ? (

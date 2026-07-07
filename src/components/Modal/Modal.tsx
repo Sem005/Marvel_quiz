@@ -1,13 +1,17 @@
 import React from "react";
-import type { ModalProps } from "../../types/components";
 
-const Modal = ({ openModal, children, closeModal }: ModalProps) => {
+type ModalProps = {
+  openModal: boolean;
+  children?: React.ReactNode;
+  closeModal?: () => void;
+};
+
+const Modal: React.FC<ModalProps> = ({ openModal, children, closeModal }) => {
+  if (!openModal) return null;
   return (
-    openModal && (
-      <div className="modalBackground" onClick={closeModal}>
-        <div className="modalContainer">{children}</div>
-      </div>
-    )
+    <div className="modalBackground" onClick={closeModal}>
+      <div className="modalContainer">{children}</div>
+    </div>
   );
 };
 
