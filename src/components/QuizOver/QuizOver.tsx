@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { GiDiamondTrophy } from 'react-icons/gi';
 import { BsFillEmojiLaughingFill } from 'react-icons/bs';
 import Modal from '../Modal/Modal';

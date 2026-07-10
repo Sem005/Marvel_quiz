@@ -1,4 +1,4 @@
-﻿import { initializeApp, FirebaseApp } from 'firebase/app';
+import { initializeApp, FirebaseApp } from 'firebase/app';
 import { getFirestore, addDoc, collection, where, query, getDocs, Firestore } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, Auth, UserCredential } from 'firebase/auth';
 import type { FirebaseConfig, UserData } from '../../types';

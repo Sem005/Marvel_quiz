@@ -23,6 +23,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "clean:bom": "node scripts/strip-bom.js",
+    "prebuild": "npm run clean:bom",
     "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
